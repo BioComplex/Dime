@@ -706,7 +706,7 @@ nav {
 
 /* For logos with internal detail (e.g. seals) — grayscale preserves contrast */
 .partner-logo--detail {
-  filter: grayscale(1) brightness(2.5);
+  filter: grayscale(1) contrast(1.4) brightness(1.2);
 }
 
 .partner-logo:hover { opacity: 0.85; }
