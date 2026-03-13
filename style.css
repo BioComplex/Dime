@@ -704,6 +704,11 @@ nav {
   transition: opacity 0.2s;
 }
 
+/* For logos with internal detail (e.g. seals) — grayscale preserves contrast */
+.partner-logo--detail {
+  filter: grayscale(1) brightness(2.5);
+}
+
 .partner-logo:hover { opacity: 0.85; }
 
 .partners-divider {
