@@ -707,6 +707,11 @@ nav {
 /* For logos with internal detail (e.g. seals) — invert after grayscale makes dark text/crest white */
 .partner-logo--detail {
   filter: grayscale(1) invert(1) brightness(1.1);
+  height: 123px; /* ~40% larger than base */
+}
+
+.partner-logo--md {
+  height: 106px; /* ~20% larger than base */
 }
 
 .partner-logo:hover { opacity: 0.85; }
