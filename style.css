@@ -665,6 +665,59 @@ nav {
   color: var(--muted);
 }
 
+/* ─── PARTNERS ────────────────────────────────────────── */
+.partners-section {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  padding: 48px 48px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.partners-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.partners-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.partners-logos {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.partner-logo {
+  height: 44px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.45;
+  transition: opacity 0.2s;
+}
+
+.partner-logo:hover { opacity: 0.85; }
+
+.partners-divider {
+  width: 1px;
+  height: 56px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .partners-section { gap: 32px; padding: 40px 20px; }
+  .partners-divider { display: none; }
+}
+
 /* ─── FOOTER ──────────────────────────────────────────── */
 footer {
   padding: 24px 48px;
