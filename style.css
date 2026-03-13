@@ -704,9 +704,9 @@ nav {
   transition: opacity 0.2s;
 }
 
-/* For logos with internal detail (e.g. seals) — grayscale preserves contrast */
+/* For logos with internal detail (e.g. seals) — invert after grayscale makes dark text/crest white */
 .partner-logo--detail {
-  filter: grayscale(1) contrast(1.4) brightness(1.2);
+  filter: grayscale(1) invert(1) brightness(1.1);
 }
 
 .partner-logo:hover { opacity: 0.85; }
