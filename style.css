@@ -277,10 +277,11 @@ nav {
   gap: 20px;
   align-items: flex-start;
   padding: 28px;
-  transition: background 0.2s;
+  border: 1px solid var(--border);
+  transition: border-color 0.2s;
 }
 
-.speaker-card:hover { background: var(--navy-mid); }
+.speaker-card:hover { border-color: var(--red-dim); }
 
 .speaker-avatar {
   width: 72px;
