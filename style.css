@@ -654,7 +654,8 @@ nav {
 .sched-tag--plenary   { background: #1e1a28;            color: #a088cc; }
 .sched-tag--logistics { background: var(--navy-mid);    color: var(--muted); }
 .sched-tag--social    { background: #281a12;            color: #c89060; }
-.sched-tag--online    { background: #102828;            color: #50d0c0; }
+.sched-tag--online         { background: #102828;            color: #50d0c0; }
+.sched-tag--online-talk    { background: #102828;            color: #50d0c0; }
 
 .sched-title {
   font-size: 15px;
