@@ -44,69 +44,66 @@
       </div>
 
       <div class="hero-diagram" aria-hidden="true">
-        <svg viewBox="0 0 360 330" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:340px">
+        <svg viewBox="0 0 360 240" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:340px">
           <defs>
-            <radialGradient id="eco-center-glow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%"   stop-color="#c9a84c" stop-opacity="0.28"/>
-              <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
-            </radialGradient>
-            <filter id="eco-dot-glow" x="-80%" y="-80%" width="260%" height="260%">
-              <feGaussianBlur stdDeviation="4" result="blur"/>
+            <filter id="ec-glow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="3.5" result="blur"/>
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
 
-          <!-- Circle fills -->
-          <circle cx="180" cy="120" r="90" fill="rgba(80,208,192,0.05)"/>
-          <circle cx="113" cy="228" r="90" fill="rgba(106,175,212,0.05)"/>
-          <circle cx="247" cy="228" r="90" fill="rgba(201,168,76,0.05)"/>
+          <!-- Left cluster edges -->
+          <line x1="90"  y1="112" x2="62"  y2="84"  stroke="#50d0c0" stroke-width="0.8" opacity="0.35"/>
+          <line x1="90"  y1="112" x2="118" y2="80"  stroke="#50d0c0" stroke-width="0.8" opacity="0.35"/>
+          <line x1="90"  y1="112" x2="56"  y2="142" stroke="#50d0c0" stroke-width="0.8" opacity="0.35"/>
+          <line x1="90"  y1="112" x2="122" y2="144" stroke="#50d0c0" stroke-width="0.8" opacity="0.35"/>
+          <line x1="62"  y1="84"  x2="118" y2="80"  stroke="#50d0c0" stroke-width="0.6" opacity="0.22"/>
+          <line x1="56"  y1="142" x2="80"  y2="168" stroke="#50d0c0" stroke-width="0.6" opacity="0.22"/>
+          <line x1="122" y1="144" x2="80"  y2="168" stroke="#50d0c0" stroke-width="0.6" opacity="0.22"/>
+          <line x1="62"  y1="84"  x2="56"  y2="142" stroke="#50d0c0" stroke-width="0.5" opacity="0.18"/>
 
-          <!-- Circle outlines -->
-          <circle cx="180" cy="120" r="90" stroke="#50d0c0" stroke-width="0.8" opacity="0.55"/>
-          <circle cx="113" cy="228" r="90" stroke="#6aafd4" stroke-width="0.8" opacity="0.55"/>
-          <circle cx="247" cy="228" r="90" stroke="#c9a84c" stroke-width="0.8" opacity="0.55"/>
+          <!-- Right cluster edges -->
+          <line x1="270" y1="112" x2="242" y2="84"  stroke="#c9a84c" stroke-width="0.8" opacity="0.35"/>
+          <line x1="270" y1="112" x2="298" y2="80"  stroke="#c9a84c" stroke-width="0.8" opacity="0.35"/>
+          <line x1="270" y1="112" x2="238" y2="142" stroke="#c9a84c" stroke-width="0.8" opacity="0.35"/>
+          <line x1="270" y1="112" x2="304" y2="142" stroke="#c9a84c" stroke-width="0.8" opacity="0.35"/>
+          <line x1="242" y1="84"  x2="298" y2="80"  stroke="#c9a84c" stroke-width="0.6" opacity="0.22"/>
+          <line x1="238" y1="142" x2="280" y2="168" stroke="#c9a84c" stroke-width="0.6" opacity="0.22"/>
+          <line x1="304" y1="142" x2="280" y2="168" stroke="#c9a84c" stroke-width="0.6" opacity="0.22"/>
+          <line x1="298" y1="80"  x2="304" y2="142" stroke="#c9a84c" stroke-width="0.5" opacity="0.18"/>
 
-          <!-- Centre glow -->
-          <circle cx="180" cy="192" r="38" fill="url(#eco-center-glow)"/>
+          <!-- Bridge edge (weak, dashed) -->
+          <line x1="122" y1="144" x2="238" y2="142"
+                stroke="rgba(255,255,255,0.18)" stroke-width="0.7" stroke-dasharray="3 5">
+            <animate attributeName="opacity" values="0.6;0.15;0.6" dur="4s" repeatCount="indefinite"/>
+          </line>
 
-          <!-- Centre dot -->
-          <circle cx="180" cy="192" r="5" fill="#c9a84c" opacity="0.9" filter="url(#eco-dot-glow)"/>
+          <!-- Left cluster nodes -->
+          <circle cx="90"  cy="112" r="6"   fill="#50d0c0" opacity="0.80" filter="url(#ec-glow)"/>
+          <circle cx="62"  cy="84"  r="3.5" fill="#50d0c0" opacity="0.60"/>
+          <circle cx="118" cy="80"  r="3.5" fill="#50d0c0" opacity="0.60"/>
+          <circle cx="56"  cy="142" r="3.5" fill="#50d0c0" opacity="0.60"/>
+          <circle cx="122" cy="144" r="3.5" fill="#50d0c0" opacity="0.50"/>
+          <circle cx="80"  cy="168" r="3"   fill="#50d0c0" opacity="0.42"/>
 
-          <!-- Pulse ring -->
-          <circle cx="180" cy="192" r="5" stroke="#c9a84c" stroke-width="0.8" fill="none">
-            <animate attributeName="r"       values="5;24;5"       dur="3.5s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="0.65;0;0.65"  dur="3.5s" repeatCount="indefinite"/>
-          </circle>
+          <!-- Right cluster nodes -->
+          <circle cx="270" cy="112" r="6"   fill="#c9a84c" opacity="0.80" filter="url(#ec-glow)"/>
+          <circle cx="242" cy="84"  r="3.5" fill="#c9a84c" opacity="0.60"/>
+          <circle cx="298" cy="80"  r="3.5" fill="#c9a84c" opacity="0.60"/>
+          <circle cx="238" cy="142" r="3.5" fill="#c9a84c" opacity="0.50"/>
+          <circle cx="304" cy="142" r="3.5" fill="#c9a84c" opacity="0.60"/>
+          <circle cx="280" cy="168" r="3"   fill="#c9a84c" opacity="0.42"/>
 
-          <!-- Labels: inside exclusive zones of each circle -->
-          <text x="180" y="75"
-                text-anchor="middle" fill="#50d0c0" fill-opacity="0.65"
+          <!-- Labels -->
+          <text x="90"  y="200" text-anchor="middle" fill="#50d0c0" fill-opacity="0.45"
                 font-family="system-ui,-apple-system,sans-serif"
-                font-size="10" font-weight="600" letter-spacing="0.14em">SOCIAL MEDIA</text>
-
-          <text x="88"  y="243"
-                text-anchor="middle" fill="#6aafd4" fill-opacity="0.65"
+                font-size="9" font-weight="600" letter-spacing="0.15em">ECHO CHAMBER</text>
+          <text x="270" y="200" text-anchor="middle" fill="#c9a84c" fill-opacity="0.45"
                 font-family="system-ui,-apple-system,sans-serif"
-                font-size="9.5" font-weight="600" letter-spacing="0.11em">TRADITIONAL</text>
-          <text x="88"  y="257"
-                text-anchor="middle" fill="#6aafd4" fill-opacity="0.65"
+                font-size="9" font-weight="600" letter-spacing="0.15em">ECHO CHAMBER</text>
+          <text x="180" y="170" text-anchor="middle" fill="rgba(255,255,255,0.2)"
                 font-family="system-ui,-apple-system,sans-serif"
-                font-size="9.5" font-weight="600" letter-spacing="0.11em">MEDIA</text>
-
-          <text x="272" y="243"
-                text-anchor="middle" fill="#c9a84c" fill-opacity="0.65"
-                font-family="system-ui,-apple-system,sans-serif"
-                font-size="9.5" font-weight="600" letter-spacing="0.11em">OFFICIAL</text>
-          <text x="272" y="257"
-                text-anchor="middle" fill="#c9a84c" fill-opacity="0.65"
-                font-family="system-ui,-apple-system,sans-serif"
-                font-size="9.5" font-weight="600" letter-spacing="0.11em">SOURCES</text>
-
-          <!-- Alignment label at centre -->
-          <text x="180" y="206"
-                text-anchor="middle" fill="#c9a84c" fill-opacity="0.4"
-                font-family="system-ui,-apple-system,sans-serif"
-                font-size="8" font-weight="600" letter-spacing="0.2em">ALIGNMENT</text>
+                font-size="8" font-weight="500" letter-spacing="0.12em">bridge</text>
         </svg>
       </div>
     </div>
