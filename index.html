@@ -21,24 +21,93 @@
 
   <section class="page">
     <div class="hero">
-      <div class="hero-label">1st Workshop on the Dynamics of Information and Misinformation Ecosystems</div>
-      <h1><span class="accent">Computational</span> and <span class="accent">Physical</span> Approaches to the <span class="accent">Dynamics</span> of Information</h1>
-      <p class="hero-sub">Physical and computational models of information ecosystems: understanding how cross-source alignment drives the perception of truth.</p>
-      <div class="hero-meta">
-        <div class="meta-item">
-          <span class="meta-label">Date</span>
-          <span class="meta-value">August 4–5, 2026</span>
+      <div class="hero-text">
+        <div class="hero-label">1st Workshop on the Dynamics of Information and Misinformation Ecosystems</div>
+        <h1><span class="accent">Computational</span> and <span class="accent">Physical</span> Approaches to the <span class="accent">Dynamics</span> of Information</h1>
+        <p class="hero-sub">Physical and computational models of information ecosystems: understanding how cross-source alignment drives the perception of truth.</p>
+        <div class="hero-meta">
+          <div class="meta-item">
+            <span class="meta-label">Date</span>
+            <span class="meta-value">August 4–5, 2026</span>
+          </div>
+          <div class="meta-divider"></div>
+          <div class="meta-item">
+            <span class="meta-label">Location</span>
+            <span class="meta-value">Porto Alegre, Brazil</span>
+          </div>
+          <div class="meta-divider"></div>
+          <div class="meta-item">
+            <span class="meta-label">Format</span>
+            <span class="meta-value">Hybrid</span>
+          </div>
         </div>
-        <div class="meta-divider"></div>
-        <div class="meta-item">
-          <span class="meta-label">Location</span>
-          <span class="meta-value">Porto Alegre, Brazil</span>
-        </div>
-        <div class="meta-divider"></div>
-        <div class="meta-item">
-          <span class="meta-label">Format</span>
-          <span class="meta-value">Hybrid</span>
-        </div>
+      </div>
+
+      <div class="hero-diagram" aria-hidden="true">
+        <svg viewBox="0 0 360 330" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:340px">
+          <defs>
+            <radialGradient id="eco-center-glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#c9a84c" stop-opacity="0.28"/>
+              <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="eco-dot-glow" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Circle fills -->
+          <circle cx="180" cy="120" r="90" fill="rgba(80,208,192,0.05)"/>
+          <circle cx="113" cy="228" r="90" fill="rgba(106,175,212,0.05)"/>
+          <circle cx="247" cy="228" r="90" fill="rgba(201,168,76,0.05)"/>
+
+          <!-- Circle outlines -->
+          <circle cx="180" cy="120" r="90" stroke="#50d0c0" stroke-width="0.8" opacity="0.55"/>
+          <circle cx="113" cy="228" r="90" stroke="#6aafd4" stroke-width="0.8" opacity="0.55"/>
+          <circle cx="247" cy="228" r="90" stroke="#c9a84c" stroke-width="0.8" opacity="0.55"/>
+
+          <!-- Centre glow -->
+          <circle cx="180" cy="192" r="38" fill="url(#eco-center-glow)"/>
+
+          <!-- Centre dot -->
+          <circle cx="180" cy="192" r="5" fill="#c9a84c" opacity="0.9" filter="url(#eco-dot-glow)"/>
+
+          <!-- Pulse ring -->
+          <circle cx="180" cy="192" r="5" stroke="#c9a84c" stroke-width="0.8" fill="none">
+            <animate attributeName="r"       values="5;24;5"       dur="3.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.65;0;0.65"  dur="3.5s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- Labels: inside exclusive zones of each circle -->
+          <text x="180" y="75"
+                text-anchor="middle" fill="#50d0c0" fill-opacity="0.65"
+                font-family="system-ui,-apple-system,sans-serif"
+                font-size="10" font-weight="600" letter-spacing="0.14em">SOCIAL MEDIA</text>
+
+          <text x="88"  y="243"
+                text-anchor="middle" fill="#6aafd4" fill-opacity="0.65"
+                font-family="system-ui,-apple-system,sans-serif"
+                font-size="9.5" font-weight="600" letter-spacing="0.11em">TRADITIONAL</text>
+          <text x="88"  y="257"
+                text-anchor="middle" fill="#6aafd4" fill-opacity="0.65"
+                font-family="system-ui,-apple-system,sans-serif"
+                font-size="9.5" font-weight="600" letter-spacing="0.11em">MEDIA</text>
+
+          <text x="272" y="243"
+                text-anchor="middle" fill="#c9a84c" fill-opacity="0.65"
+                font-family="system-ui,-apple-system,sans-serif"
+                font-size="9.5" font-weight="600" letter-spacing="0.11em">OFFICIAL</text>
+          <text x="272" y="257"
+                text-anchor="middle" fill="#c9a84c" fill-opacity="0.65"
+                font-family="system-ui,-apple-system,sans-serif"
+                font-size="9.5" font-weight="600" letter-spacing="0.11em">SOURCES</text>
+
+          <!-- Alignment label at centre -->
+          <text x="180" y="206"
+                text-anchor="middle" fill="#c9a84c" fill-opacity="0.4"
+                font-family="system-ui,-apple-system,sans-serif"
+                font-size="8" font-weight="600" letter-spacing="0.2em">ALIGNMENT</text>
+        </svg>
       </div>
     </div>
 
