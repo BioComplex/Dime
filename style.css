@@ -340,16 +340,6 @@ nav {
 /* ─── ORGANISERS ──────────────────────────────────────── */
 .org-committee { margin-bottom: 56px; }
 
-.org-group-title {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--red-light);
-  margin-bottom: 24px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
-}
 
 .org-grid {
   display: grid;
@@ -650,11 +640,6 @@ nav {
 .sched-tag--talk      { background: #102828;            color: #50d0c0; }
 .sched-tag--short     { background: #1a2010;            color: #90b870; }
 .sched-tag--panel     { background: #122840;            color: #6aafd4; }
-.sched-tag--papers    { background: #12281a;            color: #6ab87a; }
-.sched-tag--plenary   { background: #1e1a28;            color: #a088cc; }
-.sched-tag--logistics { background: var(--navy-mid);    color: var(--muted); }
-.sched-tag--social    { background: #281a12;            color: #c89060; }
-.sched-tag--online         { background: #102828;            color: #50d0c0; }
 .sched-tag--online-talk    { background: #102828;            color: #50d0c0; }
 
 .sched-title {
