@@ -647,7 +647,7 @@ nav {
 }
 
 .sched-tag--keynote   { background: var(--red-dim);    color: #e8a0a0; }
-.sched-tag--talk      { background: var(--navy-light);  color: var(--muted); }
+.sched-tag--talk      { background: #102828;            color: #50d0c0; }
 .sched-tag--short     { background: #1a2010;            color: #90b870; }
 .sched-tag--panel     { background: #122840;            color: #6aafd4; }
 .sched-tag--papers    { background: #12281a;            color: #6ab87a; }
