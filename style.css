@@ -623,7 +623,7 @@ nav {
   font-weight: 600;
   color: var(--muted);
   letter-spacing: 0.04em;
-  min-width: 48px;
+  min-width: 100px;
   padding-top: 2px;
   flex-shrink: 0;
 }
