@@ -5,14 +5,14 @@
 }
 
 :root {
-  --navy:       #0b1623;
-  --navy-mid:   #132035;
-  --navy-light: #1d2f4a;
-  --red:        #b01828;
-  --red-light:  #c8102e;
-  --red-dim:    #6b0d1a;
+  --navy:       #0d1a12;
+  --navy-mid:   #152a1e;
+  --navy-light: #1e3a2a;
+  --red:        #c9a84c;
+  --red-light:  #e0c060;
+  --red-dim:    #7a6020;
   --white:      #f0f2f5;
-  --muted:      #7a8fa8;
+  --muted:      #8aaa90;
   --border:     rgba(255,255,255,0.07);
   --font:       'Segoe UI', system-ui, -apple-system, sans-serif;
 }
