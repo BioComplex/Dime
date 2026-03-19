@@ -360,7 +360,7 @@ nav {
 .speaker-affil {
   display: block;
   font-size: 12px;
-  color: var(--muted);
+  color: var(--red-light);
   margin-bottom: 10px;
 }
 
