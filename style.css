@@ -12,13 +12,36 @@
   --red-light:  #e0c060;
   --red-dim:    #7a6020;
   --white:      #f0f2f5;
-  --muted:      #8aaa90;
+  --muted:      #cbf8d0e7;
   --border:     rgba(255,255,255,0.07);
   --font:       'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 html { scroll-behavior: smooth; }
 
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url("images/220114_Giulian Serafim_PMPA-3985.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
+  min-height: 100vh;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: -1;
+}
+
+
+/*
 body {
   background: var(--navy);
   color: var(--white);
@@ -28,7 +51,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
+} */
 
 /* ─── NAV ─────────────────────────────────────────────── */
 nav {
@@ -263,10 +286,19 @@ nav {
 }
 
 /* ─── SPEAKERS ────────────────────────────────────────── */
+/*
 .speakers-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+} */
+
+.speakers-grid {
+  display: grid;
+  grid-template-columns: 1fr;  /* one column only */
+  gap: 10px;
   background: var(--border);
   border: 1px solid var(--border);
 }
@@ -313,6 +345,7 @@ nav {
   font-size: 15px;
   font-weight: 600;
   margin-bottom: 4px;
+  color: var(--white);
 }
 
 .speaker-title {
@@ -577,6 +610,16 @@ nav {
 /* ─── SCHEDULE ────────────────────────────────────────── */
 .schedule-day {
   margin-bottom: 64px;
+}
+
+.schedule-box {
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 30px;
+  background: var(--navy);
+  /* background: rgba(71, 71, 73, 0.92); */
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .schedule-day-title {
