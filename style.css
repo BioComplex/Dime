@@ -741,11 +741,88 @@ footer {
 
 .footer-sep { opacity: 0.4; }
 
+/* ─── HAMBURGER (hidden on desktop) ──────────────────── */
+.nav-toggle-input { display: none; }
+.nav-toggle-btn   { display: none; }
+
 /* ─── RESPONSIVE ──────────────────────────────────────── */
 @media (max-width: 640px) {
-  nav { padding: 0 20px; }
+  nav {
+    padding: 0 20px;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 56px;
+    align-items: stretch;
+  }
+
+  .nav-brand {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    height: 56px;
+  }
+
+  .nav-toggle-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px 0 8px 8px;
+    height: 56px;
+    align-self: center;
+  }
+
+  .nav-toggle-btn span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--muted);
+    border-radius: 1px;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  .nav-toggle-input:checked + .nav-toggle-btn span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+    background: var(--red-light);
+  }
+  .nav-toggle-input:checked + .nav-toggle-btn span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle-input:checked + .nav-toggle-btn span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+    background: var(--red-light);
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 8px 0 16px;
+    gap: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-toggle-input:checked ~ .nav-links {
+    display: flex;
+  }
+
+  .nav-link {
+    padding: 12px 4px;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-link--btn {
+    margin-top: 8px;
+    display: inline-block;
+    padding: 10px 18px !important;
+  }
+
+  .page { padding-top: 56px; }
+  .hero { padding-top: 56px; min-height: calc(100vh - 56px); }
   .hero, .page-header, .section-content { padding-left: 20px; padding-right: 20px; }
-  .hero-meta { flex-wrap: wrap; gap: 16px; }
+  .hero-meta { flex-direction: column; gap: 12px; }
   .meta-divider { display: none; }
   .meta-item { padding: 0; }
   footer { padding: 20px; }
