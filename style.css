@@ -674,33 +674,46 @@ nav {
   color: var(--muted);
 }
 
-/* ─── ABSTRACT ON HOVER ───────────────────────────────── */
-.schedule-item.has-abstract { cursor: default; }
-
-.schedule-item.has-abstract:hover {
-  background: rgba(255,255,255,0.02);
-  border-radius: 4px;
-  padding-left: 6px;
-  padding-right: 6px;
+/* ─── ABSTRACT FLOATING POPUP ─────────────────────────── */
+.sched-title-wrap {
+  position: relative;
+  display: block;
 }
 
-.sched-abstract {
-  font-size: 12px;
+.sched-title-wrap .sched-title {
+  cursor: help;
+  border-bottom: 1px dotted var(--red-dim);
+  display: inline;
+}
+
+.sched-abstract-popup {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 6px);
+  z-index: 200;
+  width: 420px;
+  max-width: calc(100vw - 120px);
+  background: var(--navy-mid);
+  border: 1px solid var(--red-dim);
+  border-top: 2px solid var(--red);
+  padding: 16px 18px;
+  border-radius: 0 6px 6px 6px;
+  font-size: 13px;
+  font-weight: 400;
   color: var(--muted);
   line-height: 1.65;
-  padding-top: 10px;
-  margin-top: 6px;
-  border-top: 1px solid var(--border);
-  max-height: 0;
-  overflow: hidden;
+  letter-spacing: 0;
+  text-transform: none;
   opacity: 0;
-  transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.2s ease;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.6);
 }
 
-.schedule-item.has-abstract:hover .sched-abstract {
-  max-height: 600px;
+.sched-title-wrap:hover .sched-abstract-popup {
   opacity: 1;
-  margin-top: 8px;
+  visibility: visible;
 }
 
 /* ─── VENUE ───────────────────────────────────────────── */
