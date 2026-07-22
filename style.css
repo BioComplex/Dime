@@ -674,6 +674,35 @@ nav {
   color: var(--muted);
 }
 
+/* ─── ABSTRACT ON HOVER ───────────────────────────────── */
+.schedule-item.has-abstract { cursor: default; }
+
+.schedule-item.has-abstract:hover {
+  background: rgba(255,255,255,0.02);
+  border-radius: 4px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.sched-abstract {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.65;
+  padding-top: 10px;
+  margin-top: 6px;
+  border-top: 1px solid var(--border);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.2s ease;
+}
+
+.schedule-item.has-abstract:hover .sched-abstract {
+  max-height: 600px;
+  opacity: 1;
+  margin-top: 8px;
+}
+
 /* ─── VENUE ───────────────────────────────────────────── */
 .venue-section {
   display: grid;
