@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Local Information — DIME 2026</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    /* ─── Leaflet dark theme ─────────────────────────────── */
+    .leaflet-popup-content-wrapper {
+      background: var(--navy-mid);
+      border: 1px solid var(--red-dim);
+      border-radius: 3px;
+      color: var(--muted);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.65);
+    }
+    .leaflet-popup-tip { background: var(--red-dim); }
+    .leaflet-popup-content {
+      margin: 10px 14px;
+      font-size: 13px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    .leaflet-popup-content strong {
+      display: block;
+      color: var(--white);
+      margin-bottom: 2px;
+    }
+    .leaflet-popup-content small {
+      font-size: 11px;
+      color: var(--red-light);
+      letter-spacing: 0.04em;
+    }
+    .leaflet-container a.leaflet-popup-close-button {
+      color: var(--muted);
+    }
+    .leaflet-bar a {
+      background: var(--navy-mid) !important;
+      color: var(--muted) !important;
+      border-color: var(--border) !important;
+    }
+    .leaflet-bar a:hover {
+      background: var(--navy-light) !important;
+      color: var(--white) !important;
+    }
+    .leaflet-attribution-flag { display: none !important; }
+
+    /* ─── LOCAL PAGE ──────────────────────────────────────── */
+    .local-block {
+      padding: 64px 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ─── FEATURED ROW: map + main card ──────────────────── */
+    .featured-row {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 0;
+      margin-bottom: 36px;
+      border: 1px solid var(--border);
+    }
+
+    .featured-map-wrap {
+      height: 360px;
+      position: relative;
+    }
+
+    .featured-map-wrap .leaflet-container {
+      height: 100%;
+      width: 100%;
+    }
+
+    .featured-card {
+      background: var(--navy-mid);
+      border-left: 1px solid var(--border);
+      padding: 28px 28px 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .featured-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red-light);
+      margin-bottom: 10px;
+    }
+
+    .featured-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 2px;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+
+    .featured-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.3;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .featured-name a {
+      color: var(--white);
+      text-decoration: none;
+      border-bottom: 1px solid var(--red-dim);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .featured-name a:hover { color: var(--red-light); border-color: var(--red-light); }
+
+    .featured-address {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .featured-hours {
+      font-size: 12px;
+      color: var(--muted);
+      opacity: 0.72;
+      line-height: 1.55;
+      margin-bottom: 10px;
+    }
+
+    .featured-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 12px;
+      flex: 1;
+    }
+
+    .featured-contact {
+      font-size: 12px;
+      color: var(--muted);
+      opacity: 0.7;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    .map-link {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--red-light);
+      text-decoration: none;
+      border-bottom: 1px solid var(--red-dim);
+      padding-bottom: 1px;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+      margin-top: auto;
+      align-self: flex-start;
+    }
+    .map-link:hover { color: var(--white); border-color: var(--white); }
+
+    /* ─── MAP LEGEND ──────────────────────────────────────── */
+    .map-legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--muted);
+      opacity: 0.75;
+      letter-spacing: 0.04em;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      flex-shrink: 0;
+    }
+
+    .legend-diamond {
+      width: 9px;
+      height: 9px;
+      transform: rotate(45deg);
+      border: 1.5px solid rgba(255,255,255,0.6);
+      flex-shrink: 0;
+    }
+
+    /* ─── OTHER SUGGESTIONS ───────────────────────────────── */
+    .other-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0.55;
+      margin-bottom: 14px;
+    }
+
+    .places-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .place-card {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s;
+    }
+    .place-card:hover { border-color: var(--red-dim); }
+
+    .place-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 2px;
+      margin-bottom: 9px;
+      width: fit-content;
+    }
+
+    .badge--gauch    { background: #102828; color: #50d0c0; }
+    .badge--veg      { background: #0e2410; color: #78c888; }
+    .badge--japanese { background: #201028; color: #c890e8; }
+    .badge--pizza    { background: #281808; color: #e8a868; }
+    .badge--bistro   { background: #201820; color: #d0a8c8; }
+    .badge--market   { background: #182020; color: #70c8b8; }
+    .badge--bar      { background: var(--red-dim); color: #e8c080; }
+    .badge--river    { background: #082028; color: #60b8d8; }
+    .badge--cafe     { background: #181420; color: #a8a0d8; }
+
+    .place-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .place-name a {
+      color: var(--white);
+      text-decoration: none;
+      border-bottom: 1px solid var(--red-dim);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .place-name a:hover { color: var(--red-light); border-color: var(--red-light); }
+
+    .place-address {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .place-footer {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .place-contact {
+      font-size: 11px;
+      color: var(--muted);
+      opacity: 0.6;
+      line-height: 1.5;
+    }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .featured-row { grid-template-columns: 1fr; }
+      .featured-map-wrap { height: 280px; }
+      .featured-card { border-left: none; border-top: 1px solid var(--border); }
+    }
+    @media (max-width: 640px) {
+      .local-block { padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-brand">DIME</div>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle-input" aria-hidden="true">
+    <label for="nav-toggle" class="nav-toggle-btn" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </label>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="schedule.html" class="nav-link">Program</a></li>
+      <li><a href="speakers.html" class="nav-link">Speakers</a></li>
+      <li><a href="organisers.html" class="nav-link">Organisers</a></li>
+      <li><a href="local.html" class="nav-link active">Local</a></li>
+      <li><a href="participation.html" class="nav-link nav-link--btn">Participate</a></li>
+    </ul>
+  </nav>
+
+  <section class="page">
+
+    <div class="page-header">
+      <div class="page-label">Porto Alegre · August 2026</div>
+      <h2>Local Information</h2>
+    </div>
+
+    <div style="padding: 0 48px 40px; margin-top: -20px;">
+      <p style="font-size:13px; color:var(--muted); opacity:0.65; line-height:1.75; max-width:640px; border-left:2px solid var(--red-dim); padding-left:14px;">
+        The venues listed below are suggestions to help attendees find places to eat during the workshop. DIME 2026 has no affiliation with or endorsement from any of the establishments listed.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         LUNCH
+    ══════════════════════════════════════════════════════ -->
+    <div class="local-block">
+      <div class="page-label" style="margin-bottom:6px">Lunch</div>
+
+      <!-- Legend -->
+      <div class="map-legend">
+        <div class="legend-item">
+          <div class="legend-diamond" style="background:#c9a84c"></div>
+          Conference Venue
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#e0c060"></div>
+          Recommended
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#50d0c0"></div>
+          General
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#78c888"></div>
+          Vegetarian
+        </div>
+      </div>
+
+      <!-- Map + featured card -->
+      <div class="featured-row">
+        <div class="featured-map-wrap" id="lunch-map"></div>
+        <div class="featured-card">
+          <div class="featured-eyebrow">Recommended</div>
+          <span class="featured-badge badge--gauch">Gaúcho</span>
+          <div class="featured-name">
+            <a href="https://www.restaurantequintanilha.com.br" target="_blank" rel="noopener">Restaurante Quintanilha</a>
+          </div>
+          <div class="featured-address">R. Cel. Vicente, 575<br>Centro Histórico</div>
+          <div class="featured-hours">Mon–Fri 11:30–14:30<br>Sat &amp; Holidays 12:00–15:00</div>
+          <div class="featured-contact">
+            Tel: (51) 4066-1380<br>
+            WhatsApp: (51) 99367-9786
+          </div>
+          <a href="https://maps.app.goo.gl/jc4oaVEFuyEdDL1k8" target="_blank" rel="noopener" class="map-link">Open in Google Maps ↗</a>
+        </div>
+      </div>
+
+      <!-- Other suggestions -->
+      <div class="other-label">More suggestions</div>
+      <div class="places-grid">
+
+        <div class="place-card">
+          <span class="place-badge badge--gauch">Gaúcho</span>
+          <div class="place-name">
+            <a href="https://www.restaurantequintanilha.com.br/#unidades" target="_blank" rel="noopener">Restaurante Quintanilha</a>
+          </div>
+          <div class="place-address">Rua 24 de Outubro, 171 · Moinhos de Vento</div>
+          <div class="place-footer">
+            <span class="place-contact">Mon–Fri 11:30–14:30<br>Sat, Sun &amp; Hol. 12:00–15:00</span>
+            <a href="https://maps.app.goo.gl/pFmao4EvK4JNCS3Q9" target="_blank" rel="noopener" class="map-link">Map ↗</a>
+          </div>
+        </div>
+
+        <div class="place-card">
+          <span class="place-badge badge--veg">Vegetarian</span>
+          <div class="place-name">Prato Verde</div>
+          <div class="place-address">Rua Santa Terezinha, 42 · Bom Fim</div>
+          <div class="place-footer">
+            <span></span>
+            <a href="https://maps.app.goo.gl/JwR6HG3uZWnuuSpc8" target="_blank" rel="noopener" class="map-link">Map ↗</a>
+          </div>
+        </div>
+
+        <div class="place-card">
+          <span class="place-badge badge--veg">Vegetarian</span>
+          <div class="place-name">Restaurante Formosa</div>
+          <div class="place-address">Av. Osvaldo Aranha, 472 · Bom Fim</div>
+          <div class="place-footer">
+            <span></span>
+            <a href="https://maps.app.goo.gl/DG7XRdoej2hMu5Av6" target="_blank" rel="noopener" class="map-link">Map ↗</a>
+          </div>
+        </div>
+
+        <div class="place-card">
+          <span class="place-badge badge--cafe">Café</span>
+          <div class="place-name">Café Angélica</div>
+          <div class="place-address">Rua General João Telles, 301 · Bom Fim</div>
+          <div class="place-footer">
+            <span></span>
+            <a href="https://maps.app.goo.gl/nPDuWDGxmia9Lqay6" target="_blank" rel="noopener" class="map-link">Map ↗</a>
+          </div>
+        </div>
+
+        <div class="place-card">
+          <span class="place-badge badge--veg">Vegetarian</span>
+          <div class="place-name">Restaurante Ocidente</div>
+          <div class="place-address">Av. Osvaldo Aranha, 960 · Bom Fim</div>
+          <div class="place-footer">
+            <span></span>
+            <a href="https://maps.app.goo.gl/adbyB4QUJy5EJGbR8" target="_blank" rel="noopener" class="map-link">Map ↗</a>
+          </div>
+        </div>
+
+        <div class="place-card">
+          <span class="place-badge badge--veg">Vegetarian</span>
+          <div class="place-name">Restaurante Suprem</div>
+          <div class="place-address">R. Santo Antônio, 877 · Bom Fim</div>
+          <div class="place-footer">
+            <span></span>
+            <a href="https://maps.app.goo.gl/EJ7A9pKRsHVuCTgA6" target="_blank" rel="noopener" class="map-link">Map ↗</a>
+          </div>
+        </div>
+
+        <div class="place-card">
+          <span class="place-badge badge--market">Market</span>
+          <div class="place-name">Mercado Brasco</div>
+          <div class="place-address">Rua Fernandes Vieira, 286 · Bom Fim</div>
+          <div class="place-footer">
+            <span></span>
+            <a href="https://maps.app.goo.gl/BZbeVdXbgq9E4Qd7A" target="_blank" rel="noopener" class="map-link">Map ↗</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         DINNER
+    ══════════════════════════════════════════════════════ -->
+    <div class="local-block">
+      <div class="page-label" style="margin-bottom:6px">Dinner</div>
+
+      <!-- Legend -->
+      <div class="map-legend">
+        <div class="legend-item">
+          <div class="legend-diamond" style="background:#c9a84c"></div>
+          Conference Venue
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#e8c080"></div>
+          Recommended
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#60b8d8"></div>
+          Riverside
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#c890e8"></div>
+          Japanese
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#e8a868"></div>
+          Pizza
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#d0a8c8"></div>
+          Bistro
+        </div>
+      </div>
+
+      <!-- Map + featured card -->
+      <div class="featured-row">
+        <div class="featured-map-wrap" id="dinner-map"></div>
+        <div class="featured-card">
+          <div class="featured-eyebrow">Recommended</div>
+          <span class="featured-badge badge--bar">Gaúcho</span>
+          <div class="featured-name">Bah Carlos Gomes</div>
+          <div class="featured-address">Bourbon Carlos Gomes<br>Rua Regente, 499 · Bela Vista</div>
+          <div class="featured-desc">High-end gaúcho cuisine and reinterpretations of Rio Grande do Sul classics. Elegant setting with terrace and garden; focused local wine list.</div>
+          <a href="https://maps.app.goo.gl/HZ6faJ7g6JayRuKw5" target="_blank" rel="noopener" class="map-link">Open in Google Maps ↗</a>
+        </div>
+      </div>
+
+      <!-- Other suggestions -->
+      <div class="other-label">More suggestions</div>
+      <div class="places-grid">
+
+        <div class="place-card">
+          <span class="place-badge badge--river">Riverside</span>
+          <div class="place-name">
+            <a href="https://grupopress.com.br/press-do-cais/" target="_blank" rel="noopener">Press Cais do Porto</a>
+          </div>
+          <div class="place-address">Cais Embarcadero<br>Av. Mauá, 1050 – Armazém A7</div>
+          <div class="place-footer">
+            <span class="place-contact">Bar &amp; restaurant on<br>the Guaíba waterfront</span>
+            <a href="https://maps.app.goo.gl/SP1TsajGB5L2Srqz5" target="_blank" rel="noopener" class="map-link">Map ↗</a>
+          </div>
+        </div>
+
+        <div class="place-card">
+          <span class="place-badge badge--japanese">Japanese</span>
+          <div class="place-name">Sambô Sushi</div>
+          <div class="place-address">Rua Fernandes Vieira, 502 · Bom Fim</div>
+          <div class="place-footer">
+            <span></span>
+            <a href="https://maps.app.goo.gl/1HaCQhykhUGxuGTB9" target="_blank" rel="noopener" class="map-link">Map ↗</a>
+          </div>
+        </div>
+
+        <div class="place-card">
+          <span class="place-badge badge--pizza">Neapolitan Pizza</span>
+          <div class="place-name">Ciao Pizzeria Napoletana</div>
+          <div class="place-address">Rua General João Telles, 294 · Bom Fim</div>
+          <div class="place-footer">
+            <span></span>
+            <a href="https://maps.app.goo.gl/Egq456YuBtcvBuax5" target="_blank" rel="noopener" class="map-link">Map ↗</a>
+          </div>
+        </div>
+
+        <div class="place-card">
+          <span class="place-badge badge--bistro">French Bistro</span>
+          <div class="place-name">Le Bistrot</div>
+          <div class="place-address">Alameda Alípio César, 22 · Boa Vista</div>
+          <div class="place-footer">
+            <span></span>
+            <a href="https://maps.app.goo.gl/5DjQMVrrN8t7V4L68" target="_blank" rel="noopener" class="map-link">Map ↗</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <span>© 2026 DIME</span>
+    <span class="footer-sep">·</span>
+    <span>Porto Alegre, Brazil</span>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    /* ── Marker helpers ─────────────────────────────────── */
+    function dotIcon(color, size) {
+      size = size || 10;
+      return L.divIcon({
+        html: '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+color+';border:2px solid rgba(255,255,255,0.65);box-shadow:0 2px 6px rgba(0,0,0,0.55)"></div>',
+        iconSize: [size, size],
+        iconAnchor: [size/2, size/2],
+        popupAnchor: [0, -(size/2+5)],
+        className: ''
+      });
+    }
+
+    function venueIcon() {
+      return L.divIcon({
+        html: '<div style="width:13px;height:13px;background:#c9a84c;border:2px solid rgba(255,255,255,0.75);box-shadow:0 2px 7px rgba(0,0,0,0.6);transform:rotate(45deg)"></div>',
+        iconSize: [13, 13],
+        iconAnchor: [6, 6],
+        popupAnchor: [0, -11],
+        className: ''
+      });
+    }
+
+    function popup(name, sub) {
+      return '<strong>'+name+'</strong>'+(sub?'<br><small>'+sub+'</small>':'');
+    }
+
+    function buildMap(id, spots) {
+      var map = L.map(id, { scrollWheelZoom: false, zoomControl: true });
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        maxZoom: 19
+      }).addTo(map);
+
+      var all = [];
+
+      /* Conference venue marker */
+      var vm = L.marker([-30.0340, -51.2183], {icon: venueIcon()})
+        .bindPopup(popup('Conference Venue', 'UFRGS · Porto Alegre'))
+        .addTo(map);
+      all.push(vm);
+
+      /* Restaurant markers */
+      spots.forEach(function(s) {
+        var m = L.marker(s.pos, {icon: dotIcon(s.color, s.main ? 13 : 10)})
+          .bindPopup(popup(s.name, s.sub))
+          .addTo(map);
+        all.push(m);
+      });
+
+      map.fitBounds(L.featureGroup(all).getBounds().pad(0.15));
+    }
+
+    /* ── Lunch map ──────────────────────────────────────── */
+    buildMap('lunch-map', [
+      {pos:[-30.0287,-51.2237], name:'Quintanilha · Centro Histórico', sub:'Gaúcho — Recommended', color:'#e0c060', main:true},
+      {pos:[-30.0277,-51.2090], name:'Quintanilha · Moinhos de Vento', sub:'Gaúcho', color:'#50d0c0'},
+      {pos:[-30.0373,-51.2138], name:'Prato Verde', sub:'Vegetarian', color:'#78c888'},
+      {pos:[-30.0326,-51.2203], name:'Restaurante Formosa', sub:'Vegetarian', color:'#78c888'},
+      {pos:[-30.0321,-51.2152], name:'Café Angélica', sub:'Café', color:'#a8a0d8'},
+      {pos:[-30.0346,-51.2154], name:'Restaurante Ocidente', sub:'Vegetarian', color:'#78c888'},
+      {pos:[-30.0330,-51.2172], name:'Restaurante Suprem', sub:'Vegetarian', color:'#78c888'},
+      {pos:[-30.0319,-51.2133], name:'Mercado Brasco', sub:'Market', color:'#70c8b8'},
+    ]);
+
+    /* ── Dinner map ─────────────────────────────────────── */
+    buildMap('dinner-map', [
+      {pos:[-30.0281,-51.1846], name:'Bah Carlos Gomes', sub:'Gaúcho — Recommended', color:'#e8c080', main:true},
+      {pos:[-30.0316,-51.2435], name:'Press Cais do Porto', sub:'Riverside bar & restaurant', color:'#60b8d8'},
+      {pos:[-30.0350,-51.2109], name:'Sambô Sushi', sub:'Japanese', color:'#c890e8'},
+      {pos:[-30.0321,-51.2149], name:'Ciao Pizzeria Napoletana', sub:'Neapolitan pizza', color:'#e8a868'},
+      {pos:[-30.0265,-51.1808], name:'Le Bistrot', sub:'French bistro', color:'#d0a8c8'},
+    ]);
+  </script>
+
+</body>
+</html>
